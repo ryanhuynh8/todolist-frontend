@@ -1,0 +1,64 @@
+<html lang="en" >
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+</head>
+<body ng-app="MainApp" ng-cloak>
+    <div ng-controller="MainController" ng-cloak>
+        <md-list>
+            <md-subheader class="md-no-sticky">Todo List</md-subheader>
+            <md-list-item ng-repeat="item in items">
+                <p> {{ item.name }} </p>
+                <md-checkbox class="md-secondary" ng-model="item.checked"></md-checkbox>
+            </md-list-item>
+
+            <md-divider></md-divider>
+
+            <md-input-container class="md-block" style="margin-left:5px">
+                <input ng-model="newItem" placeholder="Add new item to list...">
+            </md-input-container>
+
+            <section layout="row" layout-sm="column" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="addTodo()">Add</md-button>
+                <md-button class="md-raised" ng-click="selectAll()">Select all</md-button>
+                <md-button class="md-raised md-warn" ng-click="deleteTodos()">Delete selected</md-button>
+            </section>
+        </md-list>
+    </div>
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+<script type="text/javascript">
+    var app = angular.module('MainApp', ['ngMaterial']);
+
+    app.controller('MainController', function($scope) {
+        $scope.items = [ {name: 'Go shopping', checked: true }, {name: 'Wash car', checked: false}];
+        $scope.newItem = '';
+
+        $scope.addTodo = function() {
+            if ($scope.newItem === '') return;
+            $scope.items.push({ name: $scope.newItem, checked: false });
+            $scope.newItem = '';
+        };
+
+        $scope.deleteTodos = function() {
+            $scope.items = $scope.items.filter(function(item) {
+               return item.checked !== true;
+            });
+        };
+
+        $scope.selectAll = function() {
+            $scope.items.forEach(function(item) {
+               item.checked = true;
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
